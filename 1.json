@@ -1,0 +1,24 @@
+{
+	"Resources":{
+	   "myvpc":{
+		"Type":"AWS::EC2::VPC",
+		"Properties":{
+			"CidrBlock":"10.0.0.0/26",
+			"Tags":[
+			   {
+			      "Key": "Name",
+				  "Value": "App1-Vpc"
+			   },
+			   {
+			      "Key": "Env",
+				  "Value": "Dev"
+			   }
+			   
+			]
+		}
+	   }
+	}
+	
+}
+
+
