@@ -3,15 +3,15 @@
 	   "myvpc":{
 		"Type":"AWS::EC2::VPC",
 		"Properties":{
-			"CidrBlock":"10.0.0.0/26",
+			"CidrBlock":"10.0.0.0/56",
 			"Tags":[
 			   {
 			      "Key": "Name",
-				  "Value": "App1-Vpc"
+				  "Value": "App2-Vpc"
 			   },
 			   {
-			      "Key": "Env",
-				  "Value": "Dev"
+			      "Key": "Env986749",
+				  "Value": "Dev9847689"
 			   }
 			   
 			]

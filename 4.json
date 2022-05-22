@@ -1,0 +1,138 @@
+{
+	"Resources":{
+		"vpc1":{
+			"Type":"AWS::EC2::VPC",
+			"Properties":{
+				"CidrBlock":"10.0.0.0/16",
+				"Tags":[
+					{
+					   "Key": "Name",
+					   "Value":"CFVPC"
+					}
+				]
+			}
+		},
+		"sn1":{
+			"Type":"AWS::EC2::Subnet",
+			"Properties":{
+				"VpcId":{"Ref":"vpc1"},
+				"AvailabilityZone":"ap-southeast-1a",
+				"CidrBlock":"10.0.0.0/24",
+				"Tags":[
+									{
+					   "Key": "Name",
+					   "Value":"CFVPC-SN1"
+					}
+				]
+			}
+		},
+		"sn2":{
+			"Type":"AWS::EC2::Subnet",
+			"Properties":{
+				"VpcId":{"Ref":"vpc1"},
+				"AvailabilityZone":"ap-southeast-1b",
+				"CidrBlock":"10.0.1.0/24",
+				"Tags":[
+									{
+					   "Key": "Name",
+					   "Value":"CFVPC-SN2"
+					}
+				]
+			}
+		},
+		"igw":{
+			"Type":"AWS::EC2::InternetGateway",
+			"Properties":{
+				"Tags":[
+									{
+					   "Key": "Name",
+					   "Value":"CFVPC-IGW"
+					}
+			]
+		}
+	},
+	"igwvpc1":{
+		"Type":"AWS::EC2::VPCGatewayAttachment",
+		"Properties":{
+			"VpcId":{"Ref":"vpc1"},
+			"InternetGatewayId":{"Ref":"igw"}
+		}
+	},
+	"Rt1":{
+		"Type":"AWS::EC2::RouteTable",
+		"Properties":{
+			"VpcId":{"Ref":"vpc1"}
+		}
+	},
+	"rt1igw":{
+		"Type" : "AWS::EC2::Route",
+		"Properties":{
+			"RouteTableId":{"Ref":"Rt1"},
+			"DestinationCidrBlock":"0.0.0.0/0",
+			"GatewayId":{"Ref":"igw"}
+		}
+	},
+	"sn1rt1":{
+		"Type":"AWS::EC2::SubnetRouteTableAssociation",
+		"Properties":{
+			"RouteTableId": {"Ref":"Rt1"},
+			"SubnetId":{"Ref":"sn1"}
+		}
+	},
+	"sg1":{
+		"Type":"AWS::EC2::SecurityGroup",
+		"Properties":{
+			"VpcId":{"Ref":"vpc1"},
+			"GroupName":"mysg1",
+			"GroupDescription":"testing",
+			"SecurityGroupIngress":[
+				{
+				  "CidrIp":"10.0.0.0/24",
+				  "FromPort":"22",
+				  "ToPort":"22",
+				  "IpProtocol":"tcp"
+				},
+				{
+				  "CidrIp":"89.90.56.90/32",
+				  "FromPort":"22",
+				  "ToPort":"22",
+				  "IpProtocol":"tcp"
+				},
+				{
+				  "CidrIp":"0.0.0.0/0",
+				  "FromPort":"80",
+				  "ToPort":"80",
+				  "IpProtocol":"tcp"
+				}
+			]
+		}
+	},
+	"i1":{
+			"Type":"AWS::EC2::Instance",
+			"Properties":{
+				"InstanceType":"t2.micro",
+				"ImageId":"ami-09fd84f161a4df688",
+				"SubnetId":{"Ref":"sn1"},
+				"UserData":{"Fn::Base64":{"Fn::Join":["\n",["#!/bin/bash","apt-get update","apt-get install apache2 -y"]]}},
+				"KeyName":"apr04",
+				"Tags":[
+					{
+					  "Key":"Name",
+					  "Value":"MyInstance1"
+					}
+				]
+			}
+		}
+	
+	
+  },
+  "Outputs":{
+    "test1":{
+		"Value": {"Fn::Join":["\n",["#!/bin/bash","apt-get update","apt-get install apache2 -y"]]}
+	},
+	"test2":{
+		"Value": { "Fn::Base64" : "Sheshivardhan"}
+	}
+  }
+  
+}
