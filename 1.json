@@ -1,13 +1,14 @@
 {
+  new Resource added By Sheshi
 	"Resources":{
-	   "myvpc":{
-		"Type":"AWS::EC2::VPC",
+	   "myvpc-746r8734":{
+		"Type":"AWS::EC2-vpv::VPC",
 		"Properties":{
 			"CidrBlock":"10.0.0.0/56",
 			"Tags":[
 			   {
 			      "Key": "Name",
-				  "Value": "App2-Vpc"
+				  "Value": "App3-Vpc"
 			   },
 			   {
 			      "Key": "Env986749",
